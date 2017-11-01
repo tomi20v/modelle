@@ -14,7 +14,8 @@
       "tomi20v\\": "src/tomi20v"
     },
     "files": [
-      "tests/tomi20v/modelle/Tester/FieldDefaultTester.php"
+      "tests/tomi20v/modelle/Tester/FieldDefaultTester.php",
+      "tests/tomi20v/modelle/ModelTestAbstract.php"
     ]
   },
   "require-dev": {
