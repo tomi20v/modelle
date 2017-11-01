@@ -1,0 +1,20 @@
+{
+  "name": "tomi20v/modelle",
+  "description": "",
+  "minimum-stability": "dev",
+  "license": "WTFPL",
+  "authors": [
+    {
+      "name": "tamas",
+      "email": "tomi20v@github.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "tomi20v\\": "src/tomi20v"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.5@dev"
+  }
+}
