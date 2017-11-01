@@ -22,7 +22,10 @@ class ModelTest extends TestCase
             'any' => $this->anyAny,
             'doctype' => $this->anyDoctype,
         ];
-        $this->model = new Model($this->anyData);
+        $this->model = $this->getMockBuilder(Model::class)
+            ->setConstructorArgs([$this->anyData])
+            ->setMethods()
+            ->getMock();
     }
 
     public function testConstruct()

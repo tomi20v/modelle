@@ -2,7 +2,7 @@
 
 namespace tomi20v\modelle;
 
-class Model implements ModelInterface
+abstract class Model implements ModelInterface
 {
 
     private $data;
