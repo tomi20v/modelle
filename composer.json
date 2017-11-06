@@ -15,6 +15,7 @@
     },
     "files": [
       "tests/tomi20v/modelle/Tester/FieldDefaultTester.php",
+      "tests/tomi20v/modelle/Tester/FieldGetAsTester.php",
       "tests/tomi20v/modelle/ModelTestAbstract.php"
     ]
   },

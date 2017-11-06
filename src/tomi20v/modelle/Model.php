@@ -31,8 +31,35 @@ abstract class Model implements ModelInterface
             }
         }
 
+        $notNull = isset($meta['notNull']) && $meta['notNull'];
+        if (isset($meta['getAs']) && (!is_null($ret) || $notNull)) {
+            $getAs = $meta['getAs'];
+            switch ($getAs) {
+            case 'bool':
+                $ret = (bool) $ret;
+                break;
+            case 'int':
+                $ret = (int) $ret;
+                break;
+            case 'float':
+                $ret = (float) $ret;
+                break;
+            case 'string':
+                $ret = (string) $ret;
+                break;
+            default:
+                $ret = new $getAs($ret);
+                break;
+            }
+        }
+
         return $ret;
 
+    }
+
+    public function __set($field, $val)
+    {
+        $this->data->$field = $val;
     }
 
     public function modelData()
