@@ -2,12 +2,14 @@
 
 namespace tomi20v\modelle;
 
-abstract class Model implements ModelInterface
+abstract class Modelle implements ModelleInterface
 {
 
     const MODELLE_DEF = [];
 
     private $data;
+
+    private $instances = [];
 
     public function __construct(
         $data
@@ -48,7 +50,10 @@ abstract class Model implements ModelInterface
                 $ret = (string) $ret;
                 break;
             default:
-                $ret = new $getAs($ret);
+            	if (!array_key_exists($field, $this->instances)) {
+					$this->instances[$field] = new $getAs($ret);
+				}
+                $ret = $this->instances[$field];
                 break;
             }
         }

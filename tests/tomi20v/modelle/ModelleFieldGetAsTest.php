@@ -4,7 +4,7 @@ namespace tomi20v\modelle;
 
 use tomi20v\modelle\Tester\FieldGetAsTester;
 
-class ModelFieldGetAsTest extends ModelTestAbstract
+class ModelleFieldGetAsTest extends ModelleTestAbstract
 {
 
     /** @var FieldGetAsTester */

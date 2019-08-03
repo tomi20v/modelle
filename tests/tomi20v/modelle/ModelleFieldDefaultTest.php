@@ -4,7 +4,7 @@ namespace tomi20v\modelle;
 
 use tomi20v\modelle\Tester\FieldDefaultTester;
 
-class ModelFieldDefaultTest extends ModelTestAbstract
+class ModelleFieldDefaultTest extends ModelleTestAbstract
 {
 
     public function testFieldGetsDefaulted()

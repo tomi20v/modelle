@@ -2,12 +2,12 @@
 
 namespace tomi20v\modelle\Tester;
 
-use tomi20v\modelle\Model;
+use tomi20v\modelle\Modelle;
 
 /**
  * @property mixed defaulted
  */
-class FieldDefaultTester extends Model
+class FieldDefaultTester extends Modelle
 {
 
     const MODELLE_DEF = [

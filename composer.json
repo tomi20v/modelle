@@ -16,10 +16,13 @@
     "files": [
       "tests/tomi20v/modelle/Tester/FieldDefaultTester.php",
       "tests/tomi20v/modelle/Tester/FieldGetAsTester.php",
-      "tests/tomi20v/modelle/ModelTestAbstract.php"
+      "tests/tomi20v/modelle/ModelleTestAbstract.php"
     ]
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5@dev"
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
   }
 }

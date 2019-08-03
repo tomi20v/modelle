@@ -2,18 +2,18 @@
 
 namespace tomi20v\modelle;
 
-class ModelTest extends ModelTestAbstract
+class ModelleTest extends ModelleTestAbstract
 {
 
     protected $anyData;
 
-    /** @var ModelInterface */
+    /** @var ModelleInterface */
     private $model;
 
     public function setUp()
     {
         parent::setUp();
-        $this->model = $this->getMockBuilder(Model::class)
+        $this->model = $this->getMockBuilder(Modelle::class)
             ->setConstructorArgs([$this->anyData])
             ->setMethods()
             ->getMock();

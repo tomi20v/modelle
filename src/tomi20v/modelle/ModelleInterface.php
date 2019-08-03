@@ -2,7 +2,7 @@
 
 namespace tomi20v\modelle;
 
-interface ModelInterface
+interface ModelleInterface
 {
     public function modelData();
 }

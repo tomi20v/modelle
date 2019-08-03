@@ -2,7 +2,7 @@
 
 namespace tomi20v\modelle\Tester;
 
-use tomi20v\modelle\Model;
+use tomi20v\modelle\Modelle;
 
 /**
  * @property bool boolField
@@ -18,7 +18,7 @@ use tomi20v\modelle\Model;
  * @property string notNullDateTimeField
  * @property FieldGetAsTester notNullObjField
  */
-class FieldGetAsTester extends Model
+class FieldGetAsTester extends Modelle
 {
 
     const MODELLE_DEF = [

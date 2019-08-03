@@ -4,7 +4,7 @@ namespace tomi20v\modelle;
 
 use PHPUnit\Framework\TestCase;
 
-abstract class ModelTestAbstract extends TestCase
+abstract class ModelleTestAbstract extends TestCase
 {
 
     const RAW_DATA = [

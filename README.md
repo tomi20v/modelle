@@ -1,7 +1,7 @@
 # modelle
 
 ```php
-class MyModel extends Model {
+class MyModel extends Modelle {
     const MODELLE_DEF = [
         'anyField' => [
             'default' => '...',
