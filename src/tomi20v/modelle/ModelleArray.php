@@ -54,7 +54,7 @@ class ModelleArray implements ModelleArrayInterface
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
-            $this->data[] = $value;
+			$this->push($value);
         }
         else {
             throw new Exception('no direct access');
