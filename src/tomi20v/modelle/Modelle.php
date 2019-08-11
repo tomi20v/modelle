@@ -99,9 +99,9 @@ abstract class Modelle implements ModelleInterface
     }
 
     public function applyArray(array $data) {
-		foreach ($data as $eachKey=>$eachVal) {
-			if (array_key_exists($eachKey, static::MODELLE_DEF)) {
-				$this->__set($eachKey, $eachVal);
+		foreach (static::MODELLE_DEF as $eachKey => $eachVal) {
+			if (array_key_exists($eachKey, $data)) {
+				$this->__set($eachKey, $data[$eachKey]);
 			}
 		}
 	}
