@@ -4,9 +4,14 @@
 class MyModel extends Modelle {
     const MODELLE_DEF = [
         'anyField' => [
-            'default' => '...',
             'getAs' => '<type>',
             'notNull' => true,	
+            'default' => '...',
+        ],
+        'anyArrayField' => [
+            'getAs' => ['<type>'],
+            'notNull' => true,	
+            'default' => '...',
         ],
     ];
 }
@@ -24,9 +29,9 @@ getAs types:
 - int
 - float
 - string
-- {any class name}
+- {any classname}
+- [{any classname}]
 
 
 @todo:
-- getAs = array (must be able to specify element class)
 - find a better way to autoload test abstracts and testers

@@ -4,6 +4,9 @@ namespace tomi20v\modelle;
 
 use tomi20v\modelle\Tester\FieldGetAsTester;
 
+/**
+ * @covers \tomi20v\modelle\Modelle
+ */
 class ModelleFieldAsObjectTest extends ModelleTestAbstract
 {
 

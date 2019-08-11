@@ -3,6 +3,7 @@
 namespace tomi20v\modelle\Tester;
 
 use tomi20v\modelle\Modelle;
+use tomi20v\modelle\ModelleArray;
 
 /**
  * @property bool boolField
@@ -11,6 +12,8 @@ use tomi20v\modelle\Modelle;
  * @property string stringField
  * @property string dateTimeField
  * @property FieldGetAsTester objField
+ * @property ModelleArray scalarArrayField
+ * @property ModelleArray objectArrayField
  * @property bool notNullBoolField
  * @property int notNullIntField
  * @property float notNullFloatField
@@ -37,6 +40,12 @@ class FieldGetAsTester extends Modelle
         'objField' => [
             'getAs' => FieldGetAsTester::class,
         ],
+		'scalarArrayField' => [
+			'getAs' => ['int'],
+		],
+		'objectArrayField' => [
+			'getAs' => [FieldGetAsTester::class],
+		],
         'notNullBoolField' => [
             'getAs' => 'bool',
             'notNull' => true,

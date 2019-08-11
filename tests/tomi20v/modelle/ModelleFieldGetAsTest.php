@@ -94,16 +94,16 @@ class ModelleFieldGetAsTest extends ModelleTestAbstract
         $this->assertSame($fieldValue, $result->innerField);
     }
 
-    private function fieldTester($fieldName, $notNullFieldName, $param, $castValue)
+    private function fieldTester($fieldName, $notNullFieldName, $value, $castValue)
     {
-        $this->anyData->{$fieldName} = $param;
-        $expected = is_null($param) ? null : $castValue;
-        $result = $this->model->$fieldName;
+        $this->anyData->{$fieldName} = $value;
+        $expected = is_null($value) ? null : $castValue;
+        $result = $this->model->{$fieldName};
         $this->assertSame($expected, $result);
 
-        $this->anyData->$notNullFieldName = $param;
+        $this->anyData->{$notNullFieldName} = $value;
         $expected = $castValue;
-        $result = $this->model->$notNullFieldName;
+        $result = $this->model->{$notNullFieldName};
         $this->assertSame($expected, $result);
     }
 
