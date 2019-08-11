@@ -31,11 +31,17 @@ abstract class Modelle implements ModelleInterface
         $meta = isset(static::MODELLE_DEF[$field]) ? static::MODELLE_DEF[$field] : null;
         if (is_string($meta)) {
         	$metaParts = explode('|', $meta);
-        	$meta = [
-				'getAs' => $metaParts[0],
-				'notNull' => (bool)$metaParts[1],
-				'default' => $metaParts[2],
-			];
+        	$meta = [];
+        	switch (count($metaParts)) {
+			case 3:
+				$meta['default'] = $metaParts[2];
+			case 2:
+				$meta['notNull'] = $metaParts[1];
+			case 1:
+				$meta['getAs'] = preg_match('/^\[.+\]$/', $metaParts[0])
+					? [substr($metaParts[0], 1, -1)]
+					: $metaParts[0];
+			}
 		}
         if (isset($meta['getAs']) && is_array($meta['getAs'])) {
 			$meta['arrayType'] = $meta['getAs'][0];
@@ -91,6 +97,14 @@ abstract class Modelle implements ModelleInterface
     {
         $this->data->{$field} = $val;
     }
+
+    public function applyArray(array $data) {
+		foreach ($data as $eachKey=>$eachVal) {
+			if (array_key_exists($eachKey, static::MODELLE_DEF)) {
+				$this->__set($eachKey, $eachVal);
+			}
+		}
+	}
 
     public function modelData()
     {

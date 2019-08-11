@@ -35,3 +35,6 @@ getAs types:
 
 @todo:
 - find a better way to autoload test abstracts and testers
+- add enum type
+- add ref (eg. get existing 'someRelationId' field as 'some_relation_id' for compatibility)
+- setAs property, would default to getAs
