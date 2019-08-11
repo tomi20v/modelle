@@ -12,6 +12,7 @@ class ModelleArray implements ModelleArrayInterface
     /** @var string */
     private $itemClass;
     private $isScalar;
+//    private $instances;
 
     public function __construct(array &$data, $itemClass)
     {
@@ -153,9 +154,26 @@ class ModelleArray implements ModelleArrayInterface
         return $firstKey ? $this->data[$firstKey] : null;
     }
 
-    public function push($item)
+    public function push($dataOrItem)
     {
-        $this->data[] = $item;
+		$modelClass = $this->itemClass;
+    	if ($dataOrItem instanceof $modelClass) {
+    		$data = $dataOrItem->modelData();
+    		$item = $dataOrItem;
+		}
+    	elseif (is_array($dataOrItem)) {
+    		$data = $dataOrItem;
+    		// @todo I should use Modelle->applyArray here
+    		$item = new $modelClass($data);
+		}
+		else {
+			throw new ModelleException('object type not supported');
+		}
+
+		$this->data[] = $data;
+		$key = last(array_keys($this->data));
+//		$this->instances[$key] = $item;
+
     }
 
     public function pop()
