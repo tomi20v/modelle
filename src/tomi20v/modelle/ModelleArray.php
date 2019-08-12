@@ -12,7 +12,7 @@ class ModelleArray implements ModelleArrayInterface
     /** @var string */
     private $itemClass;
     private $isScalar;
-//    private $instances;
+    private $instances;
 
     public function __construct(array &$data, $itemClass)
     {
@@ -80,12 +80,14 @@ class ModelleArray implements ModelleArrayInterface
      */
     public function current()
     {
-        $ret = current($this->data);
-        if (!$this->isScalar && !($ret instanceof ModelleInterface)) {
-            $index = array_search($ret, $this->data);
-            $this->data[$index] = $this->instanciate($this->data[$index]);
-            $ret = $this->data[$index];
-        }
+		$key = key($this->data);
+		if ($this->isScalar) {
+			$ret = $this->data[$key];
+		}
+		elseif (!array_key_exists($key, $this->instances)) {
+			$this->instances[$key] = $this->instanciate($this->data[$key]);
+			$ret = $this->instances[$key];
+		}
         return $ret;
     }
 
@@ -124,8 +126,7 @@ class ModelleArray implements ModelleArrayInterface
         if (!in_array($this->itemClass, ModelleArrayInterface::SCALAR_TYPES)) {
             foreach ($this->data as &$each) {
                 if (!$each instanceof ModelleInterface) {
-                    $itemClass = $this->itemClass;
-                    $each = new $itemClass($each);
+					$each = $this->instanciate($each);
                 }
             }
         }
@@ -156,32 +157,21 @@ class ModelleArray implements ModelleArrayInterface
 
     public function push($dataOrItem)
     {
-		$modelClass = $this->itemClass;
-    	if ($dataOrItem instanceof $modelClass) {
-    		$data = $dataOrItem->modelData();
-    		$item = $dataOrItem;
-		}
-    	elseif (is_array($dataOrItem)) {
-    		$data = $dataOrItem;
-    		// @todo I should use Modelle->applyArray here
-    		$item = new $modelClass($data);
-		}
-		else {
-			throw new ModelleException('object type not supported');
-		}
-
+		list($data, $item) = $this->castData($dataOrItem);
 		$this->data[] = $data;
 		$key = last(array_keys($this->data));
-//		$this->instances[$key] = $item;
+		$this->instances[$key] = $item;
 
     }
 
     public function pop()
     {
         return $this->instanciate(array_pop($this->data));
-
     }
 
+	/**
+	 * @param $item must be object of correct class. Use remove only with items got from this class eg don't remove manually created objects it won't work even if they match
+	 */
     public function remove($item)
     {
         foreach ($this->data as $eachKey => $eachValue) {
@@ -199,4 +189,26 @@ class ModelleArray implements ModelleArrayInterface
         $className = $this->itemClass;
         return new $className($data);
     }
+
+	private function castData($dataOrItem)
+	{
+		$modelClass = $this->itemClass;
+		if ($dataOrItem instanceof $modelClass) {
+			$data = $dataOrItem->modelData();
+			$item = $dataOrItem;
+		}
+		elseif (is_array($dataOrItem)) {
+			$data = (object)$dataOrItem;
+			// @todo I should use Modelle->applyArray here
+			$item = $this->instanciate($data);
+		}
+		elseif ($dataOrItem instanceof \stdClass) {
+			$data = $dataOrItem;
+			$item = new $modelClass($data);
+		}
+		else {
+			throw new ModelleException('object type not supported');
+		}
+		return [$data, $item];
+	}
 }
