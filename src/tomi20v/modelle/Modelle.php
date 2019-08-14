@@ -43,6 +43,11 @@ abstract class Modelle implements ModelleInterface
 					: $metaParts[0];
 			}
 		}
+        elseif (is_array($meta) && (count($meta) === 1) && is_string($meta[0])) {
+        	$meta = [
+        		'getAs' => [$meta[0]],
+			];
+		}
         if (isset($meta['getAs']) && is_array($meta['getAs'])) {
 			$meta['arrayType'] = $meta['getAs'][0];
 			$meta['getAs'] = 'array';
