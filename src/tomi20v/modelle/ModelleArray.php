@@ -85,7 +85,7 @@ class ModelleArray implements ModelleArrayInterface
 			$ret = $this->data[$key];
 		}
 		elseif (!array_key_exists($key, $this->instances)) {
-			$this->instances[$key] = $this->instanciate($this->data[$key]);
+			$this->instances[$key] = $this->instanciate($key);
 			$ret = $this->instances[$key];
 		}
         return $ret;
@@ -123,10 +123,11 @@ class ModelleArray implements ModelleArrayInterface
 
     public function all(): array
     {
-        if (!in_array($this->itemClass, ModelleArrayInterface::SCALAR_TYPES)) {
-            foreach ($this->data as &$each) {
-                if (!$each instanceof ModelleInterface) {
-					$each = $this->instanciate($each);
+        if (!$this->isScalar) {
+            foreach ($this->data as $key => &$each) {
+//                if (!$each instanceof ModelleInterface) {
+                if (!isset($this->instances[$key])) {
+					$this->instances[$key] = $this->instanciate($key);
                 }
             }
         }
@@ -152,20 +153,28 @@ class ModelleArray implements ModelleArrayInterface
     public function first()
     {
         $firstKey = reset(array_keys($this->data));
-        return $firstKey ? $this->data[$firstKey] : null;
+        if (!$firstKey) {
+			return null;
+		}
+        return $this->isScalar
+			? $this->instanciate($firstKey)
+			: $this->data[$firstKey];
     }
 
     public function push($dataOrItem)
     {
 		list($data, $item) = $this->castData($dataOrItem);
 		$this->data[] = $data;
-		$key = last(array_keys($this->data));
-		$this->instances[$key] = $item;
+		if (!$this->isScalar) {
+			$key = last(array_keys($this->data));
+			$this->instances[$key] = $item;
+		}
 
     }
 
     public function pop()
     {
+    	// @todo I think this won't work with already instanciated objects
         return $this->instanciate(array_pop($this->data));
     }
 
@@ -177,6 +186,9 @@ class ModelleArray implements ModelleArrayInterface
         foreach ($this->data as $eachKey => $eachValue) {
             if ($eachValue === $item) {
                 unset($this->data[$eachKey]);
+                if (isset($this->instances[$eachKey])) {
+                	unset($this->instances[$eachKey]);
+				}
             }
         }
     }
@@ -185,6 +197,11 @@ class ModelleArray implements ModelleArrayInterface
     /// the rest
     ////////////////////////////////////////////////////////////////////////////////
 
+//    private function instanciate($data) {
+//        $className = $this->itemClass;
+//        return new $className($data);
+//    }
+//
     private function instanciate($data) {
         $className = $this->itemClass;
         return new $className($data);
@@ -202,9 +219,15 @@ class ModelleArray implements ModelleArrayInterface
 			// @todo I should use Modelle->applyArray here
 			$item = $this->instanciate($data);
 		}
-		elseif ($dataOrItem instanceof \stdClass) {
+		elseif (!$this->isScalar && (
+			$dataOrItem instanceof \stdClass)
+		) {
 			$data = $dataOrItem;
 			$item = new $modelClass($data);
+		}
+		elseif ($this->isScalar && is_scalar($dataOrItem)) {
+			$data = $dataOrItem;
+			$item = $dataOrItem;
 		}
 		else {
 			throw new ModelleException('object type not supported');
